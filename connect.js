@@ -1,11 +1,14 @@
-const mongoose=require("mongoose");
 require('dotenv').config();
 
+const mongoose=require("mongoose");
 
 async function connectToMongoDB(){
     try{
-        // console.log("checking env->",process.env.MONGODB_URI);
-        await mongoose.connect("mongodb+srv://nandinisahu:nanu407@cluster0.dhndbip.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+
+        // const url=process.env.MONGODB_URI;
+        // console.log("checking env url->",url);
+
+        await mongoose.connect(process.env.MONGODB_URI)
         
     .then(()=>{
         console.log("connected successfully to db")
