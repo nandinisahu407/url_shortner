@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { FaLink } from "react-icons/fa";
 import { IoQrCode } from "react-icons/io5";
 import { IoCopyOutline } from "react-icons/io5";
+import QRCode from 'qrcode'
+
 
 import axios from "axios";
 import { Toaster, toast } from 'react-hot-toast';
@@ -14,9 +16,13 @@ const MainPage = () => {
 
     const[su,setSu]=useState("");
 
+    const [qr, setQr] = useState('')
+
+
     const handleShortUrl=()=>{
         setShortUrlState(true);
         setQrCodeState(false); 
+        setQr("");
 
     }
 
@@ -33,6 +39,36 @@ const MainPage = () => {
         const{name,value}=e.target;
         setInputs({...Inputs,[name]:value});
     }
+
+
+    const[url,setUrl]=useState("");
+
+    const qrchange=(e)=>{
+        setUrl(e.target.value);
+        console.log("qr url-> ",url);
+    }
+    
+    const GenerateQRCode=()=>{
+        QRCode.toDataURL(url, {
+            width:500,
+            margin:2,
+            color:{
+                dark:'#335383FF'
+            }
+        },(err,url)=>{
+            if(err){
+                console.log(err)
+                toast.error("Error while generating QR Code :(");
+                return;
+            }
+
+            console.log(url);
+            setQr(url);
+            toast.success("QR generated successfully !! 🥳");
+
+        })
+    }
+
 
     const submitUrl=async(e)=>{
         e.preventDefault();
@@ -74,7 +110,7 @@ const MainPage = () => {
   return (
     <>
 
-        <div className="main">
+        <div className="main flex flex-row justify-center items-center">
         <Toaster
             position="top-right"
             reverseOrder={false}
@@ -133,14 +169,22 @@ const MainPage = () => {
             {qrCodeState &&
                 (
                 <div className="container flex flex-col bg-blue-2 w-auto mt-10 p-20 rounded-xl">
-                <h1 className='text-4xl font-semibold text-dark-3 mb-7'>Paste Link</h1>
+                <h1 className='text-4xl font-semibold text-dark-3 mb-7'>Create a QR Code</h1>
                     <input
                         className=
                         " bg-dark-3flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-800 dark:bg-slate-950 dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-slate-300 "
-                        placeholder='Enter link'
+                        placeholder='Enter QR Code Destination'
+                        onChange={qrchange}
+                        value={url}
                     />
 
-                <button className='mt-7 bg-dark-3 text-white-1 mx-7 p-2 rounded-lg' >Generate QR Code</button>
+                <button className='mt-7 bg-dark-3 text-white-1 mx-7 p-2 rounded-lg' onClick={GenerateQRCode} >Generate QR Code</button>
+
+                    {/* {qr && <>
+                    <img src={qr} />
+                    <a href={qr} download="qrcode.png">Download</a>
+                </>} */}
+
                 </div>
  
             )
@@ -151,6 +195,17 @@ const MainPage = () => {
        
        
        </div>
+
+       {qr && <>
+
+            <div className="flex flex-col">
+            <img src={qr} />
+             <a href={qr} download="qrcode.png" className='inline-block bg-green-500 text-white-1 font-semibold rounded-md px-5 py-2 mx-auto'>Download</a>
+
+            </div>
+            
+        </>}
+
        </div>
 
     </>
