@@ -74,13 +74,13 @@ const MainPage = () => {
         e.preventDefault();
 
         try {
-            const response=await axios.post("http://localhost:1000/url",Inputs);
+            const response=await axios.post("https://linkit2.vercel.app/url",Inputs);
             console.log(response.data.id);
 
             if(response.status===200){
                 toast.success("Short Link Generated 🥳");  
 
-                const shorturl="http://localhost:1000/"+response.data.id;
+                const shorturl="https://linkit2.vercel.app/"+response.data.id;
                 setSu(shorturl);                
             }
           
