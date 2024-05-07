@@ -14,7 +14,7 @@ async function handleGenerateShortUrl(req,res){
         visitHistory:[]
     });
 
-    return res.json({id:shortId});
+    return res.status(200).json({id:shortId});
 }
 
 async function handleAnalytics(req,res){

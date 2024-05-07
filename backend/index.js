@@ -2,7 +2,10 @@ const express=require('express');
 const {connectToMongoDB}=require('./connect');
 const urlRoute=require('./routes/url');
 const app=express();
-const port=3000;
+const port=1000;
+
+const cors=require("cors");
+
 
 require('dotenv').config();
 
@@ -12,6 +15,14 @@ const URL=require('./models/url');
 connectToMongoDB();
 
 app.use(express.json())
+
+app.use(cors(
+    {
+        origin:"*",
+        methods:["POST","GET","DELETE","PUT"],
+        credentials:true
+    }
+));
 
 app.use('/url',urlRoute);
 
