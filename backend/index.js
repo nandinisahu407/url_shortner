@@ -18,7 +18,7 @@ app.use(express.json())
 
 app.use(cors(
     {
-        origin:"*",
+        origin:["https://linkit-frontend.vercel.app/"],
         methods:["POST","GET","DELETE","PUT"],
         credentials:true
     }
