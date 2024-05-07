@@ -116,7 +116,7 @@ const MainPage = () => {
             reverseOrder={false}
             />
 
-       <div className="flex flex-col justify-center text-center m-auto h-screen">
+       <div className="flex flex-col justify-center text-center m-auto h-screen my-7">
 
         <h1 className='text-4xl font-semibold text-blue-1'>Say goodbye to link overload!</h1>
 
